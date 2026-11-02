@@ -361,12 +361,14 @@ class TonalButton extends StatelessWidget {
     super.key,
     this.size = TonalButtonSize.section,
     this.glyph,
+    this.textStyle,
     required this.label,
     required this.onPressed,
   });
 
   final TonalButtonSize size;
   final Glyph? glyph;
+  final TextStyle? textStyle;
   final String label;
   final VoidCallback? onPressed;
 
@@ -374,6 +376,9 @@ class TonalButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final glyph = this.glyph;
     final label = Text(this.label);
+    final style = textStyle == null
+        ? null
+        : ButtonStyle.from(textStyle: textStyle);
     return ElasticPress(
       enabled: onPressed != null,
       child: DecoratedBox(
@@ -385,9 +390,10 @@ class TonalButton extends StatelessWidget {
           grouped: true,
           size: size,
           child: glyph == null
-              ? FilledButton(onPressed: onPressed, child: label)
+              ? FilledButton(onPressed: onPressed, style: style, child: label)
               : FilledButton.icon(
                   onPressed: onPressed,
+                  style: style,
                   icon: GlyphIcon(glyph, fill: 1),
                   label: label,
                 ),
